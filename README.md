@@ -1,5 +1,8 @@
 # Game Time
 
+## Link Deployment
+https://gametime-ashy.vercel.app/
+
 ## Anggota Kelompok
 1. Rachel Heningtyas Zanetta Erari - 2206081944
 2. Henry Soedibjo - 2206827762
