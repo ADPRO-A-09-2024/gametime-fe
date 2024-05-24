@@ -15,7 +15,7 @@ const Searching: React.FC<SearchingProps> = ({ type, term, error, setType, setTe
         event.preventDefault();
 
         try {
-            const response = await axios.get(`/api/search/${type}/${term}`);
+            const response = await axios.get(`/product/search/${type}/${term}`);
             console.log(response.data);
         } catch (error) {
             console.error(error);
