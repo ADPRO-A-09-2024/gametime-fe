@@ -1,41 +1,45 @@
-import React from 'react';
-import axios from 'axios';
+import Link from "next/link";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-type ViewProfileProps = {
-    email: string;
-    user: any;
-    setEmail: (email: string) => void;
-    setUser: (user: any) => void;
-};
-
-const ViewProfile: React.FC<ViewProfileProps> = ({ email, user, setEmail, setUser }) => {
-    const fetchUser = async () => {
-        try {
-            const response = await axios.get(`/user/${email}`);
-            setUser(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
+const ProfilePage = () => {
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <input
-                type="text"
-                placeholder="Enter email to fetch user"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={fetchUser}>Fetch User</button>
-            {user && (
-                <div>
-                    <h2>User Details</h2>
-                    <p>Email: {user.email}</p>
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-center mb-4">Profile Page</h2>
+                <form>
+                    <div className="mb-8">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Search email"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Button
+                            type="submit"
+                            className="w-full px-4 py-2 bg-indigo-600 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </form>
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                        Want to go back?{' '}
+                        <Link href="/">
+                            <span className="font-medium text-indigo-600 hover:text-indigo-500">Home</span>
+                        </Link>
+                    </p>
                 </div>
-            )}
+            </div>
         </div>
     );
 };
 
-export default ViewProfile;
+export default ProfilePage;

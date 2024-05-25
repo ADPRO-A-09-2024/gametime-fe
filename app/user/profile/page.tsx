@@ -1,44 +1,71 @@
-import React from 'react';
-import axios from 'axios';
+import Link from "next/link";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-type UpdateProfileProps = {
-    email: string;
-    newEmail: string;
-    user: any;
-    setEmail: (email: string) => void;
-    setNewEmail: (newEmail: string) => void;
-    setUser: (user: any) => void;
-};
-
-const UpdateProfile: React.FC<UpdateProfileProps> = ({ email, newEmail, user, setEmail, setNewEmail, setUser }) => {
-    const updateUserEmail = async () => {
-        try {
-            const updatedUser = { ...user, email: newEmail };
-            const response = await axios.put(`/user/${email}`, updatedUser);
-            setUser(response.data);
-            setEmail(newEmail);
-            setNewEmail('');
-        } catch (error) {
-            console.error(error);
-        }
+const ProfilePage = () => {
+    // Static profile data
+    const profileData = {
+        username: "JohnDoe",
+        email: "johndoe@example.com",
+        saldo: "1000",
+        id: "12345"
     };
 
     return (
-        <div>
-            {user && (
-                <div>
-                    <h2>Update User Details</h2>
-                    <input
-                        type="text"
-                        placeholder="Enter new email"
-                        value={newEmail}
-                        onChange={(e) => setNewEmail(e.target.value)}
-                    />
-                    <button onClick={updateUserEmail}>Update Email</button>
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-center mb-4">Profile Page</h2>
+                <div className="space-y-4">
+                    <div className="mb-4">
+                        <Label htmlFor="username">Username</Label>
+                        <Input
+                            id="username"
+                            value={profileData.username}
+                            readOnly
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            id="email"
+                            value={profileData.email}
+                            readOnly
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="saldo">Saldo</Label>
+                        <Input
+                            id="saldo"
+                            value={profileData.saldo}
+                            readOnly
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-8">
+                        <Label htmlFor="id">ID</Label>
+                        <Input
+                            id="id"
+                            value={profileData.id}
+                            readOnly
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
                 </div>
-            )}
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                        Want to go back?{' '}
+                        <Link href="/">
+                            <span className="font-medium text-indigo-600 hover:text-indigo-500">Home</span>
+                        </Link>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default UpdateProfile;
+export default ProfilePage;
