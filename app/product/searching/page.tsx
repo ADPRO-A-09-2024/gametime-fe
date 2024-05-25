@@ -1,60 +1,63 @@
-import React from 'react';
-import axios from 'axios';
 
-type SearchingProps = {
-    type: string;
-    term: string;
-    error: string;
-    setType: (type: string) => void;
-    setTerm: (term: string) => void;
-    setError: (error: string) => void;
-};
+import Link from "next/link";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-const Searching: React.FC<SearchingProps> = ({ type, term, error, setType, setTerm, setError }) => {
-    const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        try {
-            const response = await axios.get(`/product/search/${type}/${term}`);
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleInputChange = (inputType: string, value: string) => {
-        if (inputType === 'rating') {
-            const ratingValue = parseFloat(value);
-            if (isNaN(ratingValue) || ratingValue < 0.0 || ratingValue > 5.0) {
-                setError('Rating must be a number between 0.0 and 5.0');
-                return;
-            }
-        }
-        setError('');
-        setType(inputType);
-        setTerm(value);
-    };
-
+const ProductSearchPage: React.FC = () => {
     return (
-        <div>
-            <form onSubmit={handleSearch}>
-                <label>
-                    Product Name:
-                    <input type="text" onChange={(e) => handleInputChange('name', e.target.value)} />
-                </label>
-                <label>
-                    Product Rating:
-                    <input type="text" onChange={(e) => handleInputChange('rating', e.target.value)} />
-                </label>
-                <label>
-                    Product Category:
-                    <input type="text" onChange={(e) => handleInputChange('category', e.target.value)} />
-                </label>
-                <button type="submit">Search</button>
-            </form>
-            {error && <p>{error}</p>}
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-center mb-4">Product Search</h2>
+                <form>
+                    <div className="mb-4">
+                        <Label htmlFor="productName">Product Name</Label>
+                        <Input
+                            id="productName"
+                            type="text"
+                            placeholder="Enter product name"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="productRating">Product Rating</Label>
+                        <Input
+                            id="productRating"
+                            type="text"
+                            placeholder="Enter product rating"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-8">
+                        <Label htmlFor="productCategory">Product Category</Label>
+                        <Input
+                            id="productCategory"
+                            type="text"
+                            placeholder="Enter product category"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Button
+                            type="submit"
+                            className="w-full px-4 py-2 bg-indigo-600 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Search
+                        </Button>
+                    </div>
+                </form>
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-600">
+                        Want to add a new product?{' '}
+                        <Link href="/add-product">
+                            <span className="font-medium text-indigo-600 hover:text-indigo-500">Add Product</span>
+                        </Link>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Searching;
+export default ProductSearchPage;

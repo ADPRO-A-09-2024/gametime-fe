@@ -1,54 +1,67 @@
-import React from 'react';
-import axios from 'axios';
+// /app/product/filter/page.tsx
 
-const Filtering = () => {
-    const [rating, setRating] = React.useState('');
-    const [price, setPrice] = React.useState('');
+import Link from "next/link";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-    const handleFilter = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        try {
-            let response;
-            if (rating !== '') {
-                const ratingValue = parseFloat(rating);
-                if (ratingValue >= 0 && ratingValue <= 5.0) {
-                    response = await axios.get(`/product/filter/rating/less/${ratingValue}`);
-                } else {
-                    response = await axios.get(`/product/filter/rating/greater/${ratingValue}`);
-                }
-            } else if (price !== '') {
-                const priceValue = parseInt(price);
-                if (priceValue >= 0) {
-                    response = await axios.get(`/product/filter/price/less/${priceValue}`);
-                } else {
-                    response = await axios.get(`/product/filter/price/greater/${priceValue}`);
-                }
-            }
-
-            if (response) {
-                console.log(response.data);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
+const FilterPage: React.FC = () => {
     return (
-        <div>
-            <form onSubmit={handleFilter}>
-                <label>
-                    Rating:
-                    <input type="text" value={rating} onChange={(e) => setRating(e.target.value)} />
-                </label>
-                <label>
-                    Price:
-                    <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
-                </label>
-                <button type="submit">Filter</button>
-            </form>
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-center mb-4">Product Filter</h2>
+                <form>
+                    <div className="mb-4">
+                        <Label htmlFor="priceLessThan">Price Less Than</Label>
+                        <Input
+                            id="priceLessThan"
+                            type="number"
+                            placeholder="Enter maximum price"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="priceMoreThan">Price More Than</Label>
+                        <Input
+                            id="priceMoreThan"
+                            type="number"
+                            placeholder="Enter minimum price"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <Label htmlFor="ratingLessThan">Rating Less Than</Label>
+                        <Input
+                            id="ratingLessThan"
+                            type="number"
+                            step="0.1"
+                            placeholder="Enter maximum rating"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="mb-8">
+                        <Label htmlFor="ratingMoreThan">Rating More Than</Label>
+                        <Input
+                            id="ratingMoreThan"
+                            type="number"
+                            step="0.1"
+                            placeholder="Enter minimum rating"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Button
+                            type="submit"
+                            className="w-full px-4 py-2 bg-indigo-600 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Apply Filters
+                        </Button>
+                    </div>
+                </form>
+
+            </div>
         </div>
     );
 };
 
-export default Filtering;
+export default FilterPage;
