@@ -12,7 +12,7 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const router = useRouter(); 
+    const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -76,6 +76,7 @@ export default function RegisterPage() {
                         <div className="space-y-2">
                             <Label>Role</Label>
                             <RadioGroup defaultValue="BUYER" name='role'>
+<<<<<<< HEAD
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="BUYER" id="BUYER" />
                                 <Label htmlFor="BUYER">BUYER</Label>
@@ -84,6 +85,16 @@ export default function RegisterPage() {
                                 <RadioGroupItem value="SELLER" id="SELLER" />
                                 <Label htmlFor="SELLER">SELLER</Label>
                             </div>
+=======
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="BUYER" id="BUYER" />
+                                    <Label htmlFor="BUYER">BUYER</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="SELLER" id="SELLER" />
+                                    <Label htmlFor="SELLER">SELLER</Label>
+                                </div>
+>>>>>>> origin/henry
                             </RadioGroup>
                         </div>
                         {errorMessage && (

@@ -44,14 +44,22 @@ export default function LoginPage() {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/henry
             if (responseUser.ok) {
                 const { id, email } = await responseUser.json();
                 localStorage.setItem('idUser', id);
                 localStorage.setItem('email', email);
                 console.log('Logged in idUser: ' + localStorage.getItem('idUser'));
                 console.log('Logged in email: ' + localStorage.getItem('email'));
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> origin/henry
                 router.push("/"); // Redirect to home page
             }
         } catch (error) {
