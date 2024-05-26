@@ -26,7 +26,7 @@ const ProfilePage = () => {
     const [userEmail, setUserEmail] = useState('kevin@gmail.com'); // replace with the actual user's email
 
     useEffect(() => {
-        fetch(`http://localhost:8081/user/${userEmail}`)
+        fetch(`https://auth-p5zxnxph7q-ew.a.run.app/user/${userEmail}`)
             .then(response => response.json())
             .then(data => setProfileData(data)) // set profileData to data directly
             .catch((error) => {

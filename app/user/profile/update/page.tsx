@@ -17,7 +17,7 @@ const ProfilePage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8081/user/${email}`, {
+            const response = await fetch(`https://auth-p5zxnxph7q-ew.a.run.app/user/${email}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

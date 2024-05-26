@@ -15,7 +15,7 @@ const ProductSearchPage: React.FC = () => {
         event.preventDefault();
 
         // Construct the URL
-        const url = `http://localhost:8080/product/search/${searchType}/${searchTerm}`;
+        const url = `https://transaction-p5zxnxph7q-ew.a.run.app/product/search/${searchType}/${searchTerm}`;
 
         // Fetch the data
         const response = await fetch(url, {
