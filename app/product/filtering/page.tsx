@@ -1,62 +1,47 @@
 'use client'
 
 import React, { useState } from 'react';
-import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Product } from './types';
+import api from './api';
 
 const FilterPage: React.FC = () => {
     const [priceLessThan, setPriceLessThan] = useState('');
     const [priceMoreThan, setPriceMoreThan] = useState('');
     const [ratingLessThan, setRatingLessThan] = useState('');
     const [ratingMoreThan, setRatingMoreThan] = useState('');
+    const [products, setProducts] = useState<Product[]>([]);
 
     const handleFilter = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Construct the URLs
-        const urlPriceLess = `https://localhost:8080/product/filter/price/less/${priceLessThan}`;
-        const urlPriceMore = `https://localhost:8080/product/filter/price/greater/${priceMoreThan}`;
-        const urlRatingLess = `https://localhost:8080/product/filter/rating/less/${ratingLessThan}`;
-        const urlRatingMore = `https://localhost:8080/product/filter/rating/greater/${ratingMoreThan}`;
+        if (priceLessThan) {
+            const responsePriceLess = await api.get(`/product/filter/price/less/${priceLessThan}`);
+            const dataPriceLess = await responsePriceLess.data;
+            setProducts(prevProducts => [...prevProducts, ...dataPriceLess]);
+        }
 
-        // Fetch the data
-        const responsePriceLess = await fetch(urlPriceLess, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const dataPriceLess = await responsePriceLess.json();
+        if (priceMoreThan) {
+            const responsePriceMore = await api.get(`/product/filter/price/greater/${priceMoreThan}`);
+            const dataPriceMore = await responsePriceMore.data;
+            setProducts(prevProducts => [...prevProducts, ...dataPriceMore]);
+        }
 
-        const responsePriceMore = await fetch(urlPriceMore, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const dataPriceMore = await responsePriceMore.json();
+        if (ratingLessThan) {
+            const responseRatingLess = await api.get(`/product/filter/rating/less/${ratingLessThan}`);
+            const dataRatingLess = await responseRatingLess.data;
+            setProducts(prevProducts => [...prevProducts, ...dataRatingLess]);
+        }
 
-        const responseRatingLess = await fetch(urlRatingLess, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const dataRatingLess = await responseRatingLess.json();
-
-        const responseRatingMore = await fetch(urlRatingMore, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const dataRatingMore = await responseRatingMore.json();
-
-        // Do something with the data
-        console.log(dataPriceLess, dataPriceMore, dataRatingLess, dataRatingMore);
+        if (ratingMoreThan) {
+            const responseRatingMore = await api.get(`/product/filter/rating/greater/${ratingMoreThan}`);
+            const dataRatingMore = await responseRatingMore.data;
+            setProducts(prevProducts => [...prevProducts, ...dataRatingMore]);
+        }
     };
+
     return (
         <div className="flex items-center justify-center h-screen bg-gray-200">
             <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
@@ -117,6 +102,14 @@ const FilterPage: React.FC = () => {
                         </Button>
                     </div>
                 </form>
+
+                {products.map(product => (
+                    <div key={product.id} className="p-4 mb-4 border border-gray-300 rounded">
+                        <p>Name: {product.name}</p>
+                        <p>Price: {product.price}</p>
+                        <p>Rating: {product.rating}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );

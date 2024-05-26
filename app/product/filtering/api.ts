@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://transaction-p5zxnxph7q-ew.a.run.app',
 });
 
 // Add a request interceptor to include the token
