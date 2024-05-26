@@ -1,4 +1,6 @@
+'use client'
 
+import React, { useState } from 'react';
 import Link from "next/link";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -6,35 +8,58 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const ProductSearchPage: React.FC = () => {
+    const [searchType, setSearchType] = useState('NAME');
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        // Construct the URL
+        const url = `http://localhost:8080/product/search/${searchType}/${searchTerm}`;
+
+        // Fetch the data
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Search successful', data);
+            // Handle the fetched data
+        } else {
+            console.log('Search failed');
+        }
+    };
+
     return (
         <div className="flex items-center justify-center h-screen bg-gray-200">
             <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-center mb-4">Product Search</h2>
-                <form>
+                <form onSubmit={handleSearch}>
                     <div className="mb-4">
-                        <Label htmlFor="productName">Product Name</Label>
-                        <Input
-                            id="productName"
-                            type="text"
-                            placeholder="Enter product name"
+                        <Label htmlFor="searchType">Search Type</Label>
+                        <select
+                            id="searchType"
+                            value={searchType}
+                            onChange={e => setSearchType(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
+                        >
+                            <option value="NAME">Name</option>
+                            <option value="CATEGORY">Category</option>
+                            <option value="RATING">Rating</option>
+                        </select>
                     </div>
                     <div className="mb-4">
-                        <Label htmlFor="productRating">Product Rating</Label>
+                        <Label htmlFor="searchTerm">Search Term</Label>
                         <Input
-                            id="productRating"
+                            id="searchTerm"
                             type="text"
-                            placeholder="Enter product rating"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-                    <div className="mb-8">
-                        <Label htmlFor="productCategory">Product Category</Label>
-                        <Input
-                            id="productCategory"
-                            type="text"
-                            placeholder="Enter product category"
+                            placeholder="Enter search term"
+                            value={searchTerm}
+                            onChange={e => setSearchTerm(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
