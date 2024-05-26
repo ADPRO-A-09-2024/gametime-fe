@@ -25,6 +25,23 @@ export default function LoginPage() {
             const { token } = await response.json();
             localStorage.setItem('token', token);
             console.log('Logged in token: ' + localStorage.getItem('token'));
+        }else{
+            console.log('Login failed');
+        }
+
+        const responseUser = await fetch('https://auth-p5zxnxph7q-ew.a.run.app/user/me', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+
+        if (responseUser.ok) {
+            const { id, email } = await responseUser.json();
+            localStorage.setItem('idUser', id);
+            localStorage.setItem('email', email);
+            console.log('Logged in idUser: ' + localStorage.getItem('idUser'));
+            console.log('Logged in email: ' + localStorage.getItem('email'));
         }
     };
 
