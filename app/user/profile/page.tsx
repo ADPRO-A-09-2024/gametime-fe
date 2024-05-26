@@ -1,17 +1,42 @@
+'use client'
+
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+interface ProfileData {
+    id: number;
+    username: string;
+    email: string;
+    role: string;
+    balance: number;
+    name: string;
+    enabled: boolean;
+    authorities: any[];
+    credentialsNonExpired: boolean;
+    accountNonExpired: boolean;
+    accountNonLocked: boolean;
+}
+
 const ProfilePage = () => {
-    // Static profile data
-    const profileData = {
-        username: "JohnDoe",
-        email: "johndoe@example.com",
-        saldo: "1000",
-        id: "12345"
-    };
+    const [profileData, setProfileData] = useState<ProfileData | null>(null);
+    const [userEmail, setUserEmail] = useState('kevin@gmail.com'); // replace with the actual user's email
+
+    useEffect(() => {
+        fetch(`http://localhost:8081/user/${userEmail}`)
+            .then(response => response.json())
+            .then(data => setProfileData(data)) // set profileData to data directly
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [userEmail]);
+
+    if (!profileData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-200">
@@ -40,7 +65,7 @@ const ProfilePage = () => {
                         <Label htmlFor="saldo">Saldo</Label>
                         <Input
                             id="saldo"
-                            value={profileData.saldo}
+                            value={profileData.balance}
                             readOnly
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
