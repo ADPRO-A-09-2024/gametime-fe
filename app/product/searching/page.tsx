@@ -1,37 +1,23 @@
 'use client'
 
-import React, { useState } from 'react';
-import Link from "next/link";
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { useState } from 'react';
+import api from './api';
+import { Product } from './types';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const ProductSearchPage: React.FC = () => {
     const [searchType, setSearchType] = useState('NAME');
     const [searchTerm, setSearchTerm] = useState('');
+    const [products, setProducts] = useState<Product[]>([]);
 
     const handleSearch = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Construct the URL
-        const url = `https://transaction-p5zxnxph7q-ew.a.run.app/product/search/${searchType}/${searchTerm}`;
-
-        // Fetch the data
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Search successful', data);
-            // Handle the fetched data
-        } else {
-            console.log('Search failed');
-        }
+        const response = await api.get(`/product/search/${searchType}/${searchTerm}`);
+        setProducts(response.data);
     };
 
     return (
@@ -72,14 +58,14 @@ const ProductSearchPage: React.FC = () => {
                         </Button>
                     </div>
                 </form>
-                <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-600">
-                        Want to add a new product?{' '}
-                        <Link href="/add-product">
-                            <span className="font-medium text-indigo-600 hover:text-indigo-500">Add Product</span>
-                        </Link>
-                    </p>
-                </div>
+
+                {products.map(product => (
+                    <div key={product.id} className="p-4 mb-4 border border-gray-300 rounded">
+                        <p>Name: {product.name}</p>
+                        <p>Price: {product.price}</p>
+                        <p>Rating: {product.rating}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );

@@ -16,10 +16,10 @@ const FilterPage: React.FC = () => {
         event.preventDefault();
 
         // Construct the URLs
-        const urlPriceLess = `https://transaction-p5zxnxph7q-ew.a.run.app/product/filter/price/less/${priceLessThan}`;
-        const urlPriceMore = `https://transaction-p5zxnxph7q-ew.a.run.app/product/filter/price/greater/${priceMoreThan}`;
-        const urlRatingLess = `https://transaction-p5zxnxph7q-ew.a.run.app/product/filter/rating/less/${ratingLessThan}`;
-        const urlRatingMore = `https://transaction-p5zxnxph7q-ew.a.run.app/product/filter/rating/greater/${ratingMoreThan}`;
+        const urlPriceLess = `https://localhost:8080/product/filter/price/less/${priceLessThan}`;
+        const urlPriceMore = `https://localhost:8080/product/filter/price/greater/${priceMoreThan}`;
+        const urlRatingLess = `https://localhost:8080/product/filter/rating/less/${ratingLessThan}`;
+        const urlRatingMore = `https://localhost:8080/product/filter/rating/greater/${ratingMoreThan}`;
 
         // Fetch the data
         const responsePriceLess = await fetch(urlPriceLess, {
