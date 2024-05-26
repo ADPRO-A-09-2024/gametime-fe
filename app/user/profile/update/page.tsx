@@ -1,15 +1,42 @@
+'use client'
+
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/router';
+import {router} from "next/client";
 
 const ProfilePage = () => {
+    const [email, setEmail] = useState("");
+    const [profileData, setProfileData] = useState(null);
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:8081/user/${email}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            });
+            const data = await response.json();
+            setProfileData(data);
+            router.push('user/profile/page.tsx'); // navigate to profile/page.tsx
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
         <div className="flex items-center justify-center h-screen bg-gray-200">
             <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-center mb-4">Profile Page</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-8">
                         <Label htmlFor="email">Email</Label>
                         <Input
@@ -17,6 +44,8 @@ const ProfilePage = () => {
                             name="email"
                             type="email"
                             placeholder="Update your email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
