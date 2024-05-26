@@ -5,7 +5,7 @@ import { Profile } from './types';
 import api from './api';
 
 const ProfilePage: React.FC = () => {
-    const email = localStorage.getItem('email'); // Get email from local storage
+    const email = typeof window !== 'undefined' && window.localStorage ? localStorage.getItem('email') : null; // Get email from local storage
     const [profileData, setProfileData] = useState<Profile | null>(null);
 
     useEffect(() => {
