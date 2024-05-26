@@ -1,24 +1,27 @@
-"use client";
-
 import React from 'react';
+import { CartItem as CartItemType } from './types';
 import { Button } from '@/components/ui/button';
-import { CartItemDTO } from '../../lib/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface CartItemProps {
-    item: CartItemDTO;
-    onRemove: (itemId: string) => void;
+  item: CartItemType;
+  onRemove: (id: string) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
-    return (
-        <div className="flex items-center justify-between p-4 border-b">
-            <div className="flex items-center space-x-4">
-                <img src={`https://via.placeholder.com/100?text=${item.productId}`} alt={item.productId} className="w-20 h-20 object-cover"/>
-                <span>{item.productId}</span>
-            </div>
-            <Button variant="link" onClick={() => onRemove(item.id)}>Remove</Button>
-        </div>
-    );
+  return (
+    <Card className="mb-4">
+      <CardHeader>
+        <CardTitle>{item.productName}</CardTitle>
+      </CardHeader>
+      <CardContent className="flex justify-between items-center">
+        <p>{item.price}</p>
+        <Button variant="destructive" onClick={() => onRemove(item.id)}>
+          Remove
+        </Button>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default CartItem;

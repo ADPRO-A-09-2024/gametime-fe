@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { ToastProvider } from "@/components/ui/toast";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -10,7 +11,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Game Time",
-  description: "Boiler Plate for Game Time",
+  description: "Game Time",
 };
 
 export default function RootLayout({
@@ -26,7 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );
