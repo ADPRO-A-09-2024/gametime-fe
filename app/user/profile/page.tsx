@@ -1,11 +1,41 @@
-import React from 'react';
+'use client'
 
-const Page = () => {
+import React, { useState, useEffect } from 'react';
+import { Profile } from './types';
+import api from './api';
+
+const ProfilePage: React.FC = () => {
+    const email = typeof window !== 'undefined' && window.localStorage ? localStorage.getItem('email') : null; // Get email from local storage
+    const [profileData, setProfileData] = useState<Profile | null>(null);
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            const response = await api.get(`/user/${email}`);
+            setProfileData(response.data);
+        };
+
+        if (email) {
+            fetchProfileData();
+        }
+    }, [email]);
+
+    if (!profileData) {
+        return <div>Loading...</div>;
+    }
+
     return (
-        <div className="min-h-screen flex justify-center items-center gap-2 flex-wrap">
-            <h1>Hello, World!</h1>
+        <div className="flex items-center justify-center h-screen bg-gray-200">
+            <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-center mb-4">Profile Page</h2>
+
+                <div className="p-4 mb-4 border border-gray-300 rounded">
+                    <p>Username: {profileData.username}</p>
+                    <p>Email: {profileData.email}</p>
+                    <p>Balance: {profileData.balance}</p>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Page;
+export default ProfilePage;
